@@ -90,11 +90,6 @@ const perguntas = [
       correta: 2
     }
   ];
-  
-  // Exemplo de acesso a uma pergunta:
-  console.log(perguntas[0].pergunta);
-  console.log(perguntas[0].respostas);
-  console.log(perguntas[0].correta);
 
   const quiz = document.querySelector("#quiz")
   const template = document.querySelector('template')
