@@ -94,6 +94,10 @@ const perguntas = [
   const quiz = document.querySelector("#quiz")
   const template = document.querySelector('template')
 
+  const corretas = new Set()
+  const totalDePerguntas = perguntas.length
+  const mostrarTotal = document.querySelector('#acertos span') 
+  
 
   // Loop ou laço de repetição
   for(const item of perguntas) {
@@ -102,13 +106,28 @@ const perguntas = [
     
     // Faz com que a 'Resposta A' se clone ao total de repostas de cada pergunta 
     //e crie cada resposta com seu perspectivo texto
-    for(let resposta of item.respostas) {
+    for(let resposta of item.respostas) { 
+      // Seleciona que os filhos da dl podem se clonar
       const dt = quizItem.querySelector('dl dt').cloneNode(true)
+      //Seleciona o dt para mudar seu texto para o conteúdo da "resposta"
       dt.querySelector("span").textContent = resposta
+      dt.querySelector("input").setAttribute('name', 'pergunta-' + perguntas.indexOf(item))
+      dt.querySelector('input').value = item.respostas.indexOf(resposta)
+      dt.querySelector('input').onchange = (event) => {
+        const estaCorreta = event.target.value == item.correta //booleano, ou seja, true ou false
+        
+        corretas.delete(item)
+        if(estaCorreta) {
+          corretas.add(item)
+        }
+        
+        // Mostra quantas respostas estão corretas na parte dos acretos no final da página
+        mostrarTotal.textContent = corretas.size + ' de ' + totalDePerguntas
+      }
 
 
+      //coloca na tela
       quizItem.querySelector('dl').appendChild(dt)
-
     }
 
     // Remove o 'Resposta A'
